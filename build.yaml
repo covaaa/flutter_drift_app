@@ -1,0 +1,31 @@
+targets:
+  $default:
+    # ソースを絞り込むことでビルド速度が若干向上 （一部はデフォルトターゲットに含める必要あり）
+    sources:
+      - lib/**
+      - web/**
+      - "tool/**"
+      - pubspec.yaml
+      - lib/$lib$
+      - $package$
+    builders:
+      source_gen|combining_builder:
+        generate_for:
+          include:
+            - lib/src/**
+        options:
+          preamble: // coverage:ignore-file
+          ignore_for_file:
+            - duplicate_ignore
+      drift_dev:
+        # Driftによるコード生成の設定を変更するオプション
+        options:
+          # Driftはコンパイル時のSQLクエリを解析するために
+          # 利用可能なsqlite3の機能を知る必要がある
+          # Driftは`sqlite3_flutter_libs`に依存してるので
+          # 以下を指定すればfts5が有効化された最新バージョンを使用できる
+          sql:
+            dialect: sqlite
+            options:
+              version: "3.38"
+              modules: [fts5]

@@ -1,3 +1,20 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.24.5"
+  "dart.flutterSdkPath": ".fvm/versions/3.24.5",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.gitkeep": false,
+    "**/*.freezed.dart": false,
+    "**/*.g.dart": true,
+    "**/.dart_tool": true,
+    "**/.fvm": true
+  },
+  "explorerExclude.backup": {},
+  "cSpell.words": [
+    "Insertable"
+  ]
 }
