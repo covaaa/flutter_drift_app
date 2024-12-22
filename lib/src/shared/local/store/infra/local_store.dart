@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_drift_app/src/shared/local/connects/connects.dart';
 import 'package:flutter_drift_app/src/shared/local/store/infra/executes.dart';
@@ -38,7 +39,11 @@ class LocalStore extends _$LocalStore {
             },
           );
         }
-        await validateDatabaseSchema(this);
+        if (kDebugMode) {
+          // この検証は他の場所で必要無いかなりの量のコードが取り込まれる
+          // よって　デバッグでのみ実行
+          await validateDatabaseSchema(this);
+        }
       },
     );
   }
