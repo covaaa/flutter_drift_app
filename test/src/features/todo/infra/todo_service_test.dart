@@ -29,6 +29,8 @@ void main() {
     },
   );
 
+  tearDown(() => container.dispose());
+
   test(
     'should create todo',
     () {

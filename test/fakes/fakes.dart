@@ -2,10 +2,18 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_drift_app/src/shared/local/local.dart';
+import 'platforms.dart';
 
 final class Fakes {
+  FakePathProviderPlatform get platform {
+    return FakePathProviderPlatform();
+  }
+
   DatabaseConnection get connection {
-    return DatabaseConnection(NativeDatabase.memory());
+    return DatabaseConnection(
+      NativeDatabase.memory(),
+      closeStreamsSynchronously: true,
+    );
   }
 
   TodoCreatable get todoCreatable {

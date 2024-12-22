@@ -19,6 +19,8 @@ void main() {
     },
   );
 
+  tearDown(() => container.dispose());
+
   test(
     'should provide instance',
     () async {
