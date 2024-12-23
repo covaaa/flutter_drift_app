@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_drift_app/src/shared/local/local.dart';
+import 'package:flutter_drift_app/src/shared/drift/drift.dart';
 import 'package:fpdart/fpdart.dart';
 
 final class Todo extends Equatable {

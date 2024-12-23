@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter_drift_app/src/shared/local/local.dart';
+import 'package:flutter_drift_app/src/shared/drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../../fakes/fakes.dart';
+import '../../../../fakes/fakes.dart';
 
 void main() {
   late Fakes fakes;

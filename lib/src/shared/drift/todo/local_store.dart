@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
-import 'package:flutter_drift_app/src/shared/local/connects/connects.dart';
-import 'package:flutter_drift_app/src/shared/local/store/infra/executes.dart';
-import 'package:flutter_drift_app/src/shared/local/store/infra/local_store.steps.dart';
+import 'package:flutter_drift_app/src/shared/drift/connects/connects.dart';
+import 'package:flutter_drift_app/src/shared/drift/todo/executes.dart';
+import 'package:flutter_drift_app/src/shared/drift/todo/local_store.steps.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'local_store.g.dart';

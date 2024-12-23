@@ -21,11 +21,13 @@ targets:
         # Driftによるコード生成の設定を変更するオプション
         options:
           databases:
-            default: lib/src/shared/local/store/infra/local_store.dart
-          # テストファイルが保存されるディレクトリ
-          test_dir: test/drift/
+            todo: lib/src/shared/drift/todo/local_store.dart
           # スキーマファイルが保存されるディレクトリ
-          schema_dir: drift_schemas/
+          # lib/src/shared/drift/schemas/todo/drift_scheme_v1.dart...
+          schema_dir: lib/src/shared/drift/schemas/
+          # テストファイルが保存されるディレクトリ
+          # test/src/shared/drift/todo/migration_test.dart
+          test_dir: test/src/shared/drift/
           # Driftはコンパイル時のSQLクエリを解析するために
           # 利用可能なsqlite3の機能を知る必要がある
           # Driftは`sqlite3_flutter_libs`に依存してるので

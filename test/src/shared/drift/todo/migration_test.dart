@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_dev/api/migrations_native.dart';
-import 'package:flutter_drift_app/src/shared/local/store/infra/local_store.dart';
+import 'package:flutter_drift_app/src/shared/drift/todo/local_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
