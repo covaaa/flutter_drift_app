@@ -4,29 +4,29 @@
 
 // coverage:ignore-file
 
-part of 'executes.dart';
+part of 'todo_executes.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localStoreExecutionHash() =>
-    r'a2698d6a3699e2189e14aafb027d6280ecf96a85';
+String _$todoStoreExecutionHash() =>
+    r'41f6970ea4980ce28377ce440fb9435ef7af9ece';
 
-/// See also [localStoreExecution].
-@ProviderFor(localStoreExecution)
-final localStoreExecutionProvider = AutoDisposeProvider<QueryExecutor>.internal(
-  localStoreExecution,
-  name: r'localStoreExecutionProvider',
+/// See also [todoStoreExecution].
+@ProviderFor(todoStoreExecution)
+final todoStoreExecutionProvider = AutoDisposeProvider<QueryExecutor>.internal(
+  todoStoreExecution,
+  name: r'todoStoreExecutionProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$localStoreExecutionHash,
+      : _$todoStoreExecutionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef LocalStoreExecutionRef = AutoDisposeProviderRef<QueryExecutor>;
+typedef TodoStoreExecutionRef = AutoDisposeProviderRef<QueryExecutor>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

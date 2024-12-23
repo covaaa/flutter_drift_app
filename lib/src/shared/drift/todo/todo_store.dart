@@ -2,22 +2,22 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_drift_app/src/shared/drift/connects/connects.dart';
-import 'package:flutter_drift_app/src/shared/drift/todo/executes.dart';
-import 'package:flutter_drift_app/src/shared/drift/todo/local_store.steps.dart';
+import 'package:flutter_drift_app/src/shared/drift/todo/todo_executes.dart';
+import 'package:flutter_drift_app/src/shared/drift/todo/todo_store.steps.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'local_store.g.dart';
+part 'todo_store.g.dart';
 
 @riverpod
-LocalStore localStore(Ref ref) {
-  final store = LocalStore(ref.watch(localStoreExecutionProvider));
+TodoStore todoStore(Ref ref) {
+  final store = TodoStore(ref.watch(todoStoreExecutionProvider));
   ref.onDispose(store.close);
   return store;
 }
 
 @DriftDatabase(tables: [TodosData])
-class LocalStore extends _$LocalStore {
-  LocalStore(super.e);
+class TodoStore extends _$TodoStore {
+  TodoStore(super.e);
   @override
   int get schemaVersion => 2;
   @override

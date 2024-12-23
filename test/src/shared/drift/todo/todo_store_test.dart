@@ -14,7 +14,7 @@ void main() {
       fakes = Fakes();
       connection = fakes.connection;
       container = ProviderContainer(
-        overrides: [localStoreExecutionProvider.overrideWithValue(connection)],
+        overrides: [todoStoreExecutionProvider.overrideWithValue(connection)],
       );
     },
   );
@@ -24,7 +24,7 @@ void main() {
   test(
     'should provide instance',
     () async {
-      expect(container.read(localStoreProvider), isA<LocalStore>());
+      expect(container.read(todoStoreProvider), isA<TodoStore>());
     },
   );
 }

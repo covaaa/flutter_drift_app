@@ -23,7 +23,7 @@ void main() {
   test(
     'should provide instance',
     () async {
-      expect(container.read(localStoreExecutionProvider), isA<QueryExecutor>());
+      expect(container.read(todoStoreExecutionProvider), isA<QueryExecutor>());
     },
   );
 }

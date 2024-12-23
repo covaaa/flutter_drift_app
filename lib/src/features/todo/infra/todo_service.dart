@@ -9,28 +9,30 @@ part 'todo_service.g.dart';
 
 @riverpod
 TodoService todoService(Ref ref) {
-  return TodoService(ref.watch(localStoreProvider));
+  return TodoService(ref.watch(todoStoreProvider));
 }
 
 class TodoService {
-  const TodoService(this.local);
-  final LocalStore local;
+  const TodoService(this.store);
+
+  final TodoStore store;
+
+  $TodosDataTable get _todos => store.todosData;
 
   Future<int> createTodo(TodoCreatable todo) {
-    return local.into(local.todosData).insert(todo);
+    return store.into(_todos).insert(todo);
   }
 
-  Future<void> updateTodo(Todo todo) async {
-    return local.todosData.replaceOne(todo.toData());
+  Future<void> updateTodo(Todo todo) {
+    return _todos.replaceOne(todo.toData());
   }
 
   Future<bool> deleteTodo(Todo todo) {
-    return local.todosData.deleteOne(todo.toData());
+    return _todos.deleteOne(todo.toData());
   }
 
   Stream<Todos> emitsTodos() {
-    final todos = local.todosData;
-    final query = local.select(todos);
+    final query = store.select(_todos);
     return query.watch().map((todos) => Todos(todos.map(Todo.fromData)));
   }
 }

@@ -24,7 +24,7 @@ void main() {
       todosNonCategorized = fakes.todosNonCategorized;
       connection = fakes.connection;
       container = ProviderContainer(
-        overrides: [localStoreExecutionProvider.overrideWithValue(connection)],
+        overrides: [todoStoreExecutionProvider.overrideWithValue(connection)],
       );
     },
   );

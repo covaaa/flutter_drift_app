@@ -4,7 +4,7 @@
 
 // coverage:ignore-file
 
-part of 'local_store.dart';
+part of 'todo_store.dart';
 
 // ignore_for_file: type=lint
 class $TodosDataTable extends TodosData
@@ -223,9 +223,9 @@ class TodosDataCompanion extends UpdateCompanion<TodoData> {
   }
 }
 
-abstract class _$LocalStore extends GeneratedDatabase {
-  _$LocalStore(QueryExecutor e) : super(e);
-  $LocalStoreManager get managers => $LocalStoreManager(this);
+abstract class _$TodoStore extends GeneratedDatabase {
+  _$TodoStore(QueryExecutor e) : super(e);
+  $TodoStoreManager get managers => $TodoStoreManager(this);
   late final $TodosDataTable todosData = $TodosDataTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -246,7 +246,7 @@ typedef $$TodosDataTableUpdateCompanionBuilder = TodosDataCompanion Function({
 });
 
 class $$TodosDataTableFilterComposer
-    extends Composer<_$LocalStore, $TodosDataTable> {
+    extends Composer<_$TodoStore, $TodosDataTable> {
   $$TodosDataTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -265,7 +265,7 @@ class $$TodosDataTableFilterComposer
 }
 
 class $$TodosDataTableOrderingComposer
-    extends Composer<_$LocalStore, $TodosDataTable> {
+    extends Composer<_$TodoStore, $TodosDataTable> {
   $$TodosDataTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -284,7 +284,7 @@ class $$TodosDataTableOrderingComposer
 }
 
 class $$TodosDataTableAnnotationComposer
-    extends Composer<_$LocalStore, $TodosDataTable> {
+    extends Composer<_$TodoStore, $TodosDataTable> {
   $$TodosDataTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -303,7 +303,7 @@ class $$TodosDataTableAnnotationComposer
 }
 
 class $$TodosDataTableTableManager extends RootTableManager<
-    _$LocalStore,
+    _$TodoStore,
     $TodosDataTable,
     TodoData,
     $$TodosDataTableFilterComposer,
@@ -311,10 +311,10 @@ class $$TodosDataTableTableManager extends RootTableManager<
     $$TodosDataTableAnnotationComposer,
     $$TodosDataTableCreateCompanionBuilder,
     $$TodosDataTableUpdateCompanionBuilder,
-    (TodoData, BaseReferences<_$LocalStore, $TodosDataTable, TodoData>),
+    (TodoData, BaseReferences<_$TodoStore, $TodosDataTable, TodoData>),
     TodoData,
     PrefetchHooks Function()> {
-  $$TodosDataTableTableManager(_$LocalStore db, $TodosDataTable table)
+  $$TodosDataTableTableManager(_$TodoStore db, $TodosDataTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -352,7 +352,7 @@ class $$TodosDataTableTableManager extends RootTableManager<
 }
 
 typedef $$TodosDataTableProcessedTableManager = ProcessedTableManager<
-    _$LocalStore,
+    _$TodoStore,
     $TodosDataTable,
     TodoData,
     $$TodosDataTableFilterComposer,
@@ -360,13 +360,13 @@ typedef $$TodosDataTableProcessedTableManager = ProcessedTableManager<
     $$TodosDataTableAnnotationComposer,
     $$TodosDataTableCreateCompanionBuilder,
     $$TodosDataTableUpdateCompanionBuilder,
-    (TodoData, BaseReferences<_$LocalStore, $TodosDataTable, TodoData>),
+    (TodoData, BaseReferences<_$TodoStore, $TodosDataTable, TodoData>),
     TodoData,
     PrefetchHooks Function()>;
 
-class $LocalStoreManager {
-  final _$LocalStore _db;
-  $LocalStoreManager(this._db);
+class $TodoStoreManager {
+  final _$TodoStore _db;
+  $TodoStoreManager(this._db);
   $$TodosDataTableTableManager get todosData =>
       $$TodosDataTableTableManager(_db, _db.todosData);
 }
@@ -375,21 +375,21 @@ class $LocalStoreManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localStoreHash() => r'8de943ae20c1e18c7e54e562c2535b8cebddbdec';
+String _$todoStoreHash() => r'c94267df0628b8e47930a0667e885b42fc71ea57';
 
-/// See also [localStore].
-@ProviderFor(localStore)
-final localStoreProvider = AutoDisposeProvider<LocalStore>.internal(
-  localStore,
-  name: r'localStoreProvider',
+/// See also [todoStore].
+@ProviderFor(todoStore)
+final todoStoreProvider = AutoDisposeProvider<TodoStore>.internal(
+  todoStore,
+  name: r'todoStoreProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$localStoreHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$todoStoreHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef LocalStoreRef = AutoDisposeProviderRef<LocalStore>;
+typedef TodoStoreRef = AutoDisposeProviderRef<TodoStore>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
