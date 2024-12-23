@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_drift_app/src/shared/local/connects/connects.dart';
 import 'package:flutter_drift_app/src/shared/local/store/infra/executes.dart';
+import 'package:flutter_drift_app/src/shared/local/store/infra/local_store.steps.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'local_store.g.dart';
@@ -18,10 +19,15 @@ LocalStore localStore(Ref ref) {
 class LocalStore extends _$LocalStore {
   LocalStore(super.e);
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: stepByStep(
+        from1To2: (migrator, schema) async {
+          await migrator.addColumn(schema.todosData, schema.todosData.due);
+        },
+      ),
       beforeOpen: (details) async {
         await customStatement('PRAGMA foreign_keys = ON');
         if (details.wasCreated) {

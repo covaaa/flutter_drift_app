@@ -8,6 +8,7 @@ void main() {
       final data = TodosData();
       expect(() => data.id, throwsUnsupportedError);
       expect(() => data.body, throwsUnsupportedError);
+      expect(() => data.due, throwsUnsupportedError);
     },
   );
 }

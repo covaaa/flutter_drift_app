@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/todo/domain/todo.dart';
 import 'package:flutter_drift_app/src/features/todo/ui/todo_edit_sheet.dart';
+import 'package:intl/intl.dart';
 
 class TodoCard extends StatelessWidget {
   TodoCard(this.todo) : super(key: ObjectKey(todo.id));
@@ -9,6 +10,7 @@ class TodoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final yMMMd = DateFormat.yMMMd();
     final theme = Theme.of(context);
     return Card(
       child: Padding(
@@ -19,7 +21,13 @@ class TodoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [Text(todo.body, style: theme.textTheme.bodyLarge)],
+                children: [
+                  Text(todo.body, style: theme.textTheme.bodyLarge),
+                  Text(
+                    todo.due.match(() => 'No due date', yMMMd.format),
+                    style: theme.textTheme.labelLarge,
+                  ),
+                ],
               ),
             ),
             IconButton(

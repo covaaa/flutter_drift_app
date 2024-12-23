@@ -27,8 +27,13 @@ class $TodosDataTable extends TodosData
   late final GeneratedColumn<String> body = GeneratedColumn<String>(
       'body', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _dueMeta = const VerificationMeta('due');
   @override
-  List<GeneratedColumn> get $columns => [id, body];
+  late final GeneratedColumn<DateTime> due = GeneratedColumn<DateTime>(
+      'due', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [id, body, due];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -48,6 +53,10 @@ class $TodosDataTable extends TodosData
     } else if (isInserting) {
       context.missing(_bodyMeta);
     }
+    if (data.containsKey('due')) {
+      context.handle(
+          _dueMeta, due.isAcceptableOrUnknown(data['due']!, _dueMeta));
+    }
     return context;
   }
 
@@ -61,6 +70,8 @@ class $TodosDataTable extends TodosData
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       body: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+      due: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}due']),
     );
   }
 
@@ -73,12 +84,16 @@ class $TodosDataTable extends TodosData
 class TodoData extends DataClass implements Insertable<TodoData> {
   final int id;
   final String body;
-  const TodoData({required this.id, required this.body});
+  final DateTime? due;
+  const TodoData({required this.id, required this.body, this.due});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['body'] = Variable<String>(body);
+    if (!nullToAbsent || due != null) {
+      map['due'] = Variable<DateTime>(due);
+    }
     return map;
   }
 
@@ -86,6 +101,7 @@ class TodoData extends DataClass implements Insertable<TodoData> {
     return TodosDataCompanion(
       id: Value(id),
       body: Value(body),
+      due: due == null && nullToAbsent ? const Value.absent() : Value(due),
     );
   }
 
@@ -95,6 +111,7 @@ class TodoData extends DataClass implements Insertable<TodoData> {
     return TodoData(
       id: serializer.fromJson<int>(json['id']),
       body: serializer.fromJson<String>(json['body']),
+      due: serializer.fromJson<DateTime?>(json['due']),
     );
   }
   @override
@@ -103,17 +120,24 @@ class TodoData extends DataClass implements Insertable<TodoData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'body': serializer.toJson<String>(body),
+      'due': serializer.toJson<DateTime?>(due),
     };
   }
 
-  TodoData copyWith({int? id, String? body}) => TodoData(
+  TodoData copyWith(
+          {int? id,
+          String? body,
+          Value<DateTime?> due = const Value.absent()}) =>
+      TodoData(
         id: id ?? this.id,
         body: body ?? this.body,
+        due: due.present ? due.value : this.due,
       );
   TodoData copyWithCompanion(TodosDataCompanion data) {
     return TodoData(
       id: data.id.present ? data.id.value : this.id,
       body: data.body.present ? data.body.value : this.body,
+      due: data.due.present ? data.due.value : this.due,
     );
   }
 
@@ -121,44 +145,55 @@ class TodoData extends DataClass implements Insertable<TodoData> {
   String toString() {
     return (StringBuffer('TodoData(')
           ..write('id: $id, ')
-          ..write('body: $body')
+          ..write('body: $body, ')
+          ..write('due: $due')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, body);
+  int get hashCode => Object.hash(id, body, due);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is TodoData && other.id == this.id && other.body == this.body);
+      (other is TodoData &&
+          other.id == this.id &&
+          other.body == this.body &&
+          other.due == this.due);
 }
 
 class TodosDataCompanion extends UpdateCompanion<TodoData> {
   final Value<int> id;
   final Value<String> body;
+  final Value<DateTime?> due;
   const TodosDataCompanion({
     this.id = const Value.absent(),
     this.body = const Value.absent(),
+    this.due = const Value.absent(),
   });
   TodosDataCompanion.insert({
     this.id = const Value.absent(),
     required String body,
+    this.due = const Value.absent(),
   }) : body = Value(body);
   static Insertable<TodoData> custom({
     Expression<int>? id,
     Expression<String>? body,
+    Expression<DateTime>? due,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (body != null) 'body': body,
+      if (due != null) 'due': due,
     });
   }
 
-  TodosDataCompanion copyWith({Value<int>? id, Value<String>? body}) {
+  TodosDataCompanion copyWith(
+      {Value<int>? id, Value<String>? body, Value<DateTime?>? due}) {
     return TodosDataCompanion(
       id: id ?? this.id,
       body: body ?? this.body,
+      due: due ?? this.due,
     );
   }
 
@@ -171,6 +206,9 @@ class TodosDataCompanion extends UpdateCompanion<TodoData> {
     if (body.present) {
       map['body'] = Variable<String>(body.value);
     }
+    if (due.present) {
+      map['due'] = Variable<DateTime>(due.value);
+    }
     return map;
   }
 
@@ -178,7 +216,8 @@ class TodosDataCompanion extends UpdateCompanion<TodoData> {
   String toString() {
     return (StringBuffer('TodosDataCompanion(')
           ..write('id: $id, ')
-          ..write('body: $body')
+          ..write('body: $body, ')
+          ..write('due: $due')
           ..write(')'))
         .toString();
   }
@@ -198,10 +237,12 @@ abstract class _$LocalStore extends GeneratedDatabase {
 typedef $$TodosDataTableCreateCompanionBuilder = TodosDataCompanion Function({
   Value<int> id,
   required String body,
+  Value<DateTime?> due,
 });
 typedef $$TodosDataTableUpdateCompanionBuilder = TodosDataCompanion Function({
   Value<int> id,
   Value<String> body,
+  Value<DateTime?> due,
 });
 
 class $$TodosDataTableFilterComposer
@@ -218,6 +259,9 @@ class $$TodosDataTableFilterComposer
 
   ColumnFilters<String> get body => $composableBuilder(
       column: $table.body, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get due => $composableBuilder(
+      column: $table.due, builder: (column) => ColumnFilters(column));
 }
 
 class $$TodosDataTableOrderingComposer
@@ -234,6 +278,9 @@ class $$TodosDataTableOrderingComposer
 
   ColumnOrderings<String> get body => $composableBuilder(
       column: $table.body, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get due => $composableBuilder(
+      column: $table.due, builder: (column) => ColumnOrderings(column));
 }
 
 class $$TodosDataTableAnnotationComposer
@@ -250,6 +297,9 @@ class $$TodosDataTableAnnotationComposer
 
   GeneratedColumn<String> get body =>
       $composableBuilder(column: $table.body, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get due =>
+      $composableBuilder(column: $table.due, builder: (column) => column);
 }
 
 class $$TodosDataTableTableManager extends RootTableManager<
@@ -277,18 +327,22 @@ class $$TodosDataTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> body = const Value.absent(),
+            Value<DateTime?> due = const Value.absent(),
           }) =>
               TodosDataCompanion(
             id: id,
             body: body,
+            due: due,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String body,
+            Value<DateTime?> due = const Value.absent(),
           }) =>
               TodosDataCompanion.insert(
             id: id,
             body: body,
+            due: due,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

@@ -4,4 +4,5 @@ import 'package:flutter_drift_app/src/shared/local/local.dart';
 @DataClassName('TodoData')
 class TodosData extends Table with AutoIncrementingPrimaryKey {
   TextColumn get body => text()();
+  DateTimeColumn get due => dateTime().nullable()();
 }
