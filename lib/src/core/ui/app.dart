@@ -6,11 +6,20 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const color = Colors.deepPurple;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: color),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          seedColor: color,
+        ),
       ),
       home: const HomePage(title: 'Flutter Demo Home Page'),
     );
