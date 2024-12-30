@@ -11,7 +11,9 @@ void main() {
   return runZonedGuarded<void>(
     () {
       WidgetsFlutterBinding.ensureInitialized();
-      return runApp(const ProviderScope(child: App()));
+      return runApp(
+        ProviderScope(observers: [RiverpodObserver()], child: const App()),
+      );
     },
     (error, stackTrace) => log('$error', stackTrace: stackTrace),
   );
