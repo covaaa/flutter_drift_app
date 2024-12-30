@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/account/account.dart';
-import 'package:flutter_drift_app/src/core/core.dart';
 import 'package:flutter_drift_app/src/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -28,16 +28,19 @@ void main() {
     'counter increments smoke test',
     (tester) async {
       when(mockEmitsPreference).thenAnswer((i) => Stream.value(preference));
-      await tester.pumpRiverpodWidget(
+      await tester.pumpApp(
         overrides: [
           preferenceServiceProvider.overrideWithValue(mockPreferenceService),
         ],
-        child: const App(),
+        child: const HomePage(title: 'Flutter Demo Home Page'),
       );
-      verify(mockEmitsPreference).called(1);
-      expect(find.byType(LoadingPage), findsOneWidget);
       await tester.pumpAndSettle();
-      expect(find.byType(HomePage), findsOneWidget);
+      expect(find.text('0'), findsOneWidget);
+      expect(find.text('1'), findsNothing);
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pump();
+      expect(find.text('0'), findsNothing);
+      expect(find.text('1'), findsOneWidget);
     },
   );
 }
