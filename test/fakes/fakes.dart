@@ -1,11 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_drift_app/src/account/account.dart';
-import 'package:flutter_drift_app/src/category/category.dart';
-import 'package:flutter_drift_app/src/core/core.dart';
-import 'package:flutter_drift_app/src/drift/store/store.dart' as drift;
-import 'package:flutter_drift_app/src/todo/todo.dart';
+import 'package:flutter_drift_app/src/features/account/account.dart';
+import 'package:flutter_drift_app/src/features/category/category.dart';
+import 'package:flutter_drift_app/src/features/todo/todo.dart';
+import 'package:flutter_drift_app/src/shared/core/core.dart';
+import 'package:flutter_drift_app/src/shared/drift/store/store.dart' as drift;
 import 'package:fpdart/fpdart.dart';
 import 'platforms.dart';
 
