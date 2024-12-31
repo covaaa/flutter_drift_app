@@ -32,7 +32,7 @@ class App extends ConsumerWidget {
         ),
       ),
       home: asyncPreference.maybeWhen(
-        data: (preference) => const HomePage(title: 'Flutter Demo Home Page'),
+        data: (preference) => const HomePage(),
         orElse: () => const LoadingPage(),
       ),
     );

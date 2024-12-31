@@ -5,11 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 extension WidgetTesterX on WidgetTester {
   Future<void> pumpApp({
     required Widget child,
+    bool scaffold = true,
     List<Override> overrides = const [],
   }) async {
     return pumpRiverpodWidget(
       overrides: overrides,
-      child: MaterialApp(home: child),
+      child: MaterialApp(home: scaffold ? Scaffold(body: child) : child),
     );
   }
 

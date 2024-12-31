@@ -25,7 +25,7 @@ void main() {
   }
 
   testWidgets(
-    'counter increments smoke test',
+    'should render app',
     (tester) async {
       when(mockEmitsPreference).thenAnswer((i) => Stream.value(preference));
       await tester.pumpRiverpodWidget(
