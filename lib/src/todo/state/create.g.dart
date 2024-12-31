@@ -4,27 +4,26 @@
 
 // coverage:ignore-file
 
-part of 'todo_service.dart';
+part of 'create.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoServiceHash() => r'e1de84bb8cc8a3e7ce01dbfe746c908ee7b3089d';
+String _$createTodoHash() => r'30b2913e1c8c5352de9c6c79520526c65cd1190c';
 
-/// See also [todoService].
-@ProviderFor(todoService)
-final todoServiceProvider = AutoDisposeProvider<TodoService>.internal(
-  todoService,
-  name: r'todoServiceProvider',
+/// See also [CreateTodo].
+@ProviderFor(CreateTodo)
+final createTodoProvider =
+    AutoDisposeAsyncNotifierProvider<CreateTodo, Option<Unit>>.internal(
+  CreateTodo.new,
+  name: r'createTodoProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$todoServiceHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$createTodoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TodoServiceRef = AutoDisposeProviderRef<TodoService>;
+typedef _$CreateTodo = AutoDisposeAsyncNotifier<Option<Unit>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_drift_app/src/todo/todo.dart';
+import 'package:flutter_drift_app/src/todo/domain/todo.dart';
+import 'package:flutter_drift_app/src/todo/ui/todo_edit_sheet.dart';
 
 class TodoCard extends StatelessWidget {
-  TodoCard(this.todo) : super(key: ObjectKey(todo.id));
+  const TodoCard(this.todo, {super.key});
 
-  final Todo todo;
+  final DriftTodo todo;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,12 @@ class TodoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(todo.title, style: theme.textTheme.titleMedium),
+                  Text(todo.value.title, style: theme.textTheme.titleMedium),
                 ],
               ),
             ),
             IconButton(
-              onPressed: () {
-                // TODO(cova): should show edit sheet
-              },
+              onPressed: () => TodoEditSheet.show(context, todo: todo),
               icon: const Icon(Icons.more_vert_outlined),
             ),
           ],

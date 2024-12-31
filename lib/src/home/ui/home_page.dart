@@ -7,7 +7,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncTodos = ref.watch(readTodosProvider);
+    final asyncTodos = ref.watch(readDriftTodosProvider);
     return Scaffold(
       body: asyncTodos.whenOrNull(
         data: (todos) => Padding(
@@ -25,9 +25,7 @@ class HomePage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // TODO(cova): should create new todo
-        },
+        onPressed: () => TodoCreateSheet.show(context),
         icon: const Icon(Icons.add_outlined),
         label: const Text('New Todo'),
       ),

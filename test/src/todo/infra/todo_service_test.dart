@@ -12,6 +12,8 @@ void main() {
   late Fakes fakes;
   late Todo todo;
   late Todos todos;
+  late DriftTodo driftTodo;
+  late DriftTodos driftTodos;
   late QueryExecutor connection;
   late ProviderContainer container;
   late TodoService service;
@@ -21,6 +23,8 @@ void main() {
       fakes = Fakes();
       todo = fakes.todo4;
       todos = fakes.todos;
+      driftTodo = fakes.driftTodo4;
+      driftTodos = fakes.driftTodos;
       connection = fakes.connection;
       container = ProviderContainer(
         overrides: [driftDatabaseProvider.overrideWithValue(connection)],
@@ -42,7 +46,7 @@ void main() {
     'should update todo',
     () async {
       await service.createTodo(todo);
-      expect(service.updateTodo(todo), completion(4));
+      expect(service.updateTodo(driftTodo), completion(4));
     },
   );
 
@@ -50,7 +54,7 @@ void main() {
     'should delete todo',
     () async {
       await service.createTodo(todo);
-      expect(service.deleteTodo(todo), completion(isTrue));
+      expect(service.deleteTodo(driftTodo), completion(isTrue));
     },
   );
 
@@ -62,11 +66,6 @@ void main() {
         emits(
           isA<Todos>()
               .having(
-                (todos) => todos.map((todo) => todo.id),
-                'should be expected ids',
-                todos.map((todo) => todo.id),
-              )
-              .having(
                 (todos) => todos.map((todo) => todo.title),
                 'should be expected titles',
                 todos.map((todo) => todo.title),
@@ -75,6 +74,33 @@ void main() {
                 (todos) => todos.map((todo) => todo.category),
                 'should be expected categories',
                 todos.map((todo) => todo.category),
+              ),
+        ),
+      );
+    },
+  );
+
+  test(
+    'should emits drift todos',
+    () {
+      expect(
+        service.emitsDriftTodos(),
+        emits(
+          isA<DriftTodos>()
+              .having(
+                (todos) => todos.map((todo) => todo.id),
+                'should be expected ids',
+                driftTodos.map((todo) => todo.id),
+              )
+              .having(
+                (todos) => todos.map((todo) => todo.value.title),
+                'should be expected titles',
+                driftTodos.map((todo) => todo.value.title),
+              )
+              .having(
+                (todos) => todos.map((todo) => todo.value.category),
+                'should be expected categories',
+                driftTodos.map((todo) => todo.value.category),
               ),
         ),
       );

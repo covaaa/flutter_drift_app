@@ -6,22 +6,22 @@ import '../../../fakes/fakes.dart';
 
 void main() {
   late Fakes fakes;
-  late Todo todo;
+  late DriftTodo driftTodo;
 
   setUp(
     () {
       fakes = Fakes();
-      todo = fakes.todo4;
+      driftTodo = fakes.driftTodo4;
     },
   );
 
   testWidgets(
     'should show edit sheet',
     (tester) async {
-      await tester.pumpApp(child: TodoCard(todo));
+      await tester.pumpApp(child: TodoCard(driftTodo));
       await tester.tap(find.byIcon(Icons.more_vert_outlined));
       await tester.pumpAndSettle();
-      // TODO(cova): add assertions for todo edit sheet
+      expect(find.byType(TodoEditSheet), findsOneWidget);
     },
   );
 }

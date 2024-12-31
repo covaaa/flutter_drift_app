@@ -5,3 +5,10 @@ extension type const Todos._(List<Todo> _list) implements List<Todo> {
     return Todos._(List.unmodifiable(iterable));
   }
 }
+
+extension type const DriftTodos._(List<DriftTodo> _list)
+    implements List<DriftTodo> {
+  factory DriftTodos(Iterable<DriftTodo> iterable) {
+    return DriftTodos._(List.unmodifiable(iterable));
+  }
+}

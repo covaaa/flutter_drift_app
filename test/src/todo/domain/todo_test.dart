@@ -19,4 +19,11 @@ void main() {
       expect(todo.props, isA<List<Object?>>());
     },
   );
+
+  test(
+    'should copy with title',
+    () {
+      expect(todo.copyWith().title, todo.title);
+    },
+  );
 }

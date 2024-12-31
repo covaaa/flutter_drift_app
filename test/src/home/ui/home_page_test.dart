@@ -9,31 +9,30 @@ import '../../todo/infra/todo_service_test.dart';
 
 void main() {
   late Fakes fakes;
-  late Todos todos;
+  late DriftTodos driftTodos;
   late MockTodoService mockTodoService;
 
   setUp(
     () {
       fakes = Fakes();
-      todos = fakes.todos;
+      driftTodos = fakes.driftTodos;
       mockTodoService = MockTodoService();
     },
   );
 
-  Stream<Todos> mockEmitsTodos() => mockTodoService.emitsTodos();
+  Stream<DriftTodos> mockEmitsDriftTodos() => mockTodoService.emitsDriftTodos();
 
   testWidgets(
     'should render home page',
     (tester) async {
-      when(mockEmitsTodos).thenAnswer((i) => Stream.value(todos));
+      when(mockEmitsDriftTodos).thenAnswer((i) => Stream.value(driftTodos));
       await tester.pumpApp(
-        overrides: [
-          todoServiceProvider.overrideWithValue(mockTodoService),
-        ],
+        scaffold: false,
+        overrides: [todoServiceProvider.overrideWithValue(mockTodoService)],
         child: const HomePage(),
       );
       await tester.pumpAndSettle();
-      verify(mockEmitsTodos).called(1);
+      verify(mockEmitsDriftTodos).called(1);
       expect(find.byType(TodoCard), findsNWidgets(3));
       expect(find.byType(FloatingActionButton), findsOneWidget);
     },
@@ -42,18 +41,19 @@ void main() {
   testWidgets(
     'should show todo create sheet',
     (tester) async {
-      when(mockEmitsTodos).thenAnswer((i) => Stream.value(todos));
+      when(mockEmitsDriftTodos).thenAnswer((i) => Stream.value(driftTodos));
       await tester.pumpApp(
         scaffold: false,
         overrides: [todoServiceProvider.overrideWithValue(mockTodoService)],
         child: const HomePage(),
       );
       await tester.pumpAndSettle();
-      verify(mockEmitsTodos).called(1);
+      verify(mockEmitsDriftTodos).called(1);
       expect(find.byType(TodoCard), findsNWidgets(3));
+      expect(find.byType(FloatingActionButton), findsOneWidget);
       await tester.tap(find.byIcon(Icons.add_outlined));
       await tester.pumpAndSettle();
-      // TODO(cova): add assertions for todo create sheet
+      expect(find.byType(TodoCreateSheet), findsOneWidget);
     },
   );
 }
