@@ -1,4 +1,4 @@
-import 'package:drift/drift.dart' as drift;
+import 'package:drift/drift.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_drift_app/src/core/core.dart';
 import 'package:flutter_drift_app/src/drift/store/store.dart' as store;
@@ -33,11 +33,11 @@ final class Category extends Equatable {
 
   store.CategoriesCompanion toDrift() {
     return store.CategoriesCompanion(
-      id: drift.Value(id),
-      title: drift.Value(title),
-      color: drift.Value(color),
-      createdAt: drift.Value(createdAt),
-      updatedAt: drift.Value(updatedAt),
+      id: Value(id),
+      title: Value(title),
+      color: Value(color),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
     );
   }
 
@@ -47,7 +47,7 @@ final class Category extends Equatable {
       required ColorAccent color,
       required DateTime createdAt,
       required DateTime updatedAt,
-      drift.Value<int> id,
+      Value<int> id,
     }) companion,
   ) {
     final date = DateTime.now();
@@ -61,17 +61,17 @@ final class Category extends Equatable {
 
   store.CategoriesCompanion update(
     store.CategoriesCompanion Function({
-      drift.Value<int> id,
-      drift.Value<String> title,
-      drift.Value<ColorAccent> color,
-      drift.Value<DateTime> createdAt,
-      drift.Value<DateTime> updatedAt,
+      Value<int> id,
+      Value<String> title,
+      Value<ColorAccent> color,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
     }) companion,
   ) {
     return companion(
-      title: drift.Value(title),
-      color: drift.Value(color),
-      updatedAt: drift.Value(DateTime.now()),
+      title: Value(title),
+      color: Value(color),
+      updatedAt: Value(DateTime.now()),
     );
   }
 }

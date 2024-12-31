@@ -1,4 +1,4 @@
-import 'package:drift/drift.dart' as drift;
+import 'package:drift/drift.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/core/core.dart';
@@ -33,15 +33,15 @@ final class Preference extends Equatable {
     store.PreferencesCompanion Function({
       required DateTime createdAt,
       required DateTime updatedAt,
-      drift.Value<int> id,
-      drift.Value<ThemeMode> mode,
-      drift.Value<ColorSeed> color,
+      Value<int> id,
+      Value<ThemeMode> mode,
+      Value<ColorSeed> color,
     }) companion,
   ) {
     final date = DateTime.now();
     return companion(
-      mode: drift.Value(mode),
-      color: drift.Value(color),
+      mode: Value(mode),
+      color: Value(color),
       createdAt: date,
       updatedAt: date,
     );
@@ -49,17 +49,17 @@ final class Preference extends Equatable {
 
   store.PreferencesCompanion update(
     store.PreferencesCompanion Function({
-      drift.Value<int> id,
-      drift.Value<ThemeMode> mode,
-      drift.Value<ColorSeed> color,
-      drift.Value<DateTime> createdAt,
-      drift.Value<DateTime> updatedAt,
+      Value<int> id,
+      Value<ThemeMode> mode,
+      Value<ColorSeed> color,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
     }) companion,
   ) {
     return companion(
-      mode: drift.Value(mode),
-      color: drift.Value(color),
-      updatedAt: drift.Value(DateTime.now()),
+      mode: Value(mode),
+      color: Value(color),
+      updatedAt: Value(DateTime.now()),
     );
   }
 }

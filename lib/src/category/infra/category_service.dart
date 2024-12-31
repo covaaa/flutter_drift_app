@@ -1,22 +1,23 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_drift_app/src/category/domain/categories.dart';
 import 'package:flutter_drift_app/src/category/domain/category.dart';
-import 'package:flutter_drift_app/src/drift/store/store.dart' as drift;
+import 'package:flutter_drift_app/src/drift/store/store.dart'
+    hide Categories, Category;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'category_service.g.dart';
 
 @riverpod
 CategoryService categoryService(Ref ref) {
-  return CategoryService(ref.watch(drift.driftStoreProvider));
+  return CategoryService(ref.watch(driftStoreProvider));
 }
 
 class CategoryService {
   const CategoryService(this.store);
 
-  final drift.DriftStore store;
+  final DriftStore store;
 
-  drift.$DriftStoreManager get _managers => store.managers;
+  $DriftStoreManager get _managers => store.managers;
 
   Future<int> createCategory(Category category) {
     return _managers.categories.create(category.create);
