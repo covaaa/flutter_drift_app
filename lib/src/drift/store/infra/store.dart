@@ -16,7 +16,7 @@ DriftStore driftStore(Ref ref) {
   return store;
 }
 
-@DriftDatabase(tables: [Preferences])
+@DriftDatabase(tables: [Preferences, Todos, Categories])
 class DriftStore extends _$DriftStore {
   DriftStore(super.e);
   @override
@@ -30,10 +30,41 @@ class DriftStore extends _$DriftStore {
           await batch(
             (Batch instance) {
               final date = DateTime.now();
-              instance.insert(
-                preferences,
-                PreferencesCompanion.insert(createdAt: date, updatedAt: date),
-              );
+              instance
+                ..insert(
+                  preferences,
+                  PreferencesCompanion.insert(createdAt: date, updatedAt: date),
+                )
+                ..insert(
+                  categories,
+                  CategoriesCompanion.insert(
+                    title: 'important',
+                    color: ColorAccent.red,
+                    createdAt: date,
+                    updatedAt: date,
+                  ),
+                )
+                ..insertAll(
+                  todos,
+                  [
+                    TodosCompanion.insert(
+                      title: 'check out drift',
+                      createdAt: date,
+                      updatedAt: date,
+                    ),
+                    TodosCompanion.insert(
+                      title: 'fix session invalidation bug',
+                      category: const Value(1),
+                      createdAt: date,
+                      updatedAt: date,
+                    ),
+                    TodosCompanion.insert(
+                      title: 'add favorite movies to home page',
+                      createdAt: date,
+                      updatedAt: date,
+                    ),
+                  ],
+                );
             },
           );
         }

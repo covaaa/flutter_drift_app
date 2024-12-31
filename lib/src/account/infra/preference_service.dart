@@ -20,7 +20,7 @@ class PreferenceService {
     return _managers.preferences.create(preference.create);
   }
 
-  Future<void> updatePreference(Preference preference) {
+  Future<int> updatePreference(Preference preference) {
     return _managers.preferences.update(preference.update);
   }
 

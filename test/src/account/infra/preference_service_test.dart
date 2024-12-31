@@ -42,7 +42,7 @@ void main() {
     'should update preference',
     () async {
       await service.createPreference(preference);
-      expect(service.updatePreference(preference), completion(isA<void>()));
+      expect(service.updatePreference(preference), completion(2));
     },
   );
 

@@ -1,22 +1,22 @@
-import 'package:flutter_drift_app/src/account/account.dart';
+import 'package:flutter_drift_app/src/category/category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../fakes/fakes.dart';
 
 void main() {
   late Fakes fakes;
-  late Preference preference;
+  late Category category;
 
   setUp(
     () {
       fakes = Fakes();
-      preference = fakes.preference;
+      category = fakes.category1;
     },
   );
 
   test(
     'should get props',
     () {
-      expect(preference.props, isA<List<Object?>>());
+      expect(category.props, isA<List<Object?>>());
     },
   );
 }

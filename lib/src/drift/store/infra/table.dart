@@ -9,3 +9,14 @@ class Preferences extends Table with SharedColumn {
   TextColumn get color =>
       textEnum<ColorSeed>().clientDefault(() => ColorSeed.deepPurple.name)();
 }
+
+class Todos extends Table with SharedColumn {
+  TextColumn get title => text()();
+  IntColumn get category => integer().nullable()();
+}
+
+@DataClassName('Category')
+class Categories extends Table with SharedColumn {
+  TextColumn get title => text()();
+  TextColumn get color => textEnum<ColorAccent>()();
+}

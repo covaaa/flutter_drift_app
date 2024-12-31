@@ -1,22 +1,22 @@
-import 'package:flutter_drift_app/src/account/account.dart';
+import 'package:flutter_drift_app/src/todo/todo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../fakes/fakes.dart';
 
 void main() {
   late Fakes fakes;
-  late Preference preference;
+  late Todo todo;
 
   setUp(
     () {
       fakes = Fakes();
-      preference = fakes.preference;
+      todo = fakes.todo4;
     },
   );
 
   test(
     'should get props',
     () {
-      expect(preference.props, isA<List<Object?>>());
+      expect(todo.props, isA<List<Object?>>());
     },
   );
 }
