@@ -4,7 +4,7 @@
 
 // coverage:ignore-file
 
-part of 'readers.dart';
+part of 'read.dart';
 
 // **************************************************************************
 // RiverpodGenerator
