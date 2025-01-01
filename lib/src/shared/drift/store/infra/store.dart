@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Table;
 import 'package:flutter_drift_app/src/shared/core/core.dart';
 import 'package:flutter_drift_app/src/shared/drift/connects/connects.dart';
 import 'package:flutter_drift_app/src/shared/drift/store/infra/database.dart';
+import 'package:flutter_drift_app/src/shared/drift/store/infra/store.steps.dart';
 import 'package:flutter_drift_app/src/shared/drift/store/infra/table.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,10 +21,15 @@ DriftStore driftStore(Ref ref) {
 class DriftStore extends _$DriftStore {
   DriftStore(super.e);
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: stepByStep(
+        from1To2: (migrator, schema) async {
+          await migrator.addColumn(schema.todos, schema.todos.due);
+        },
+      ),
       beforeOpen: (OpeningDetails details) async {
         await customStatement('PRAGMA foreign_keys = ON');
         if (details.wasCreated) {
