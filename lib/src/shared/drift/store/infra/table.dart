@@ -13,6 +13,7 @@ class Preferences extends Table with SharedColumn {
 class Todos extends Table with SharedColumn {
   TextColumn get title => text()();
   IntColumn get category => integer().nullable()();
+  DateTimeColumn get due => dateTime().nullable()();
 }
 
 @DataClassName('Category')

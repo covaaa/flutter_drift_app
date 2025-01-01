@@ -24,6 +24,7 @@ void main() {
     'should copy with title',
     () {
       expect(todo.copyWith().title, todo.title);
+      expect(todo.copyWith().due, todo.due);
     },
   );
 }

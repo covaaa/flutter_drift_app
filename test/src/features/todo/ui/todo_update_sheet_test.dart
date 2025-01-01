@@ -8,6 +8,7 @@ import '../infra/todo_service_test.dart';
 
 void main() {
   late Fakes fakes;
+  late DateTime date;
   late DriftTodo driftTodo;
   late DriftTodo newDriftTodo;
   late MockTodoService mockTodoService;
@@ -15,8 +16,12 @@ void main() {
   setUp(
     () {
       fakes = Fakes();
-      driftTodo = fakes.driftTodo1;
-      newDriftTodo = driftTodo.copyWith(title: 'New todo');
+      date = DateUtils.dateOnly(fakes.date);
+      driftTodo = fakes.driftTodo1.copyWith(due: date);
+      newDriftTodo = driftTodo.copyWith(
+        title: 'New todo',
+        due: date.add(const Duration(days: 1)),
+      );
       mockTodoService = MockTodoService();
     },
   );
@@ -45,6 +50,11 @@ void main() {
         child: TodoUpdateSheet(driftTodo),
       );
       await tester.enterText(find.byType(TextField), newDriftTodo.value.title);
+      await tester.tap(find.byIcon(Icons.calendar_today));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('${date.day + 1}'));
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.send_outlined));
       verify(mockUpdateTodo).called(1);
     },

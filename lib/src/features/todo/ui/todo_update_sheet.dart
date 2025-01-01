@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/todo/domain/todo.dart';
 import 'package:flutter_drift_app/src/features/todo/state/update.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:intl/intl.dart';
 
 class TodoUpdateSheet extends ConsumerStatefulWidget {
   const TodoUpdateSheet(this.todo, {super.key});
@@ -29,10 +31,12 @@ class TodoUpdateSheet extends ConsumerStatefulWidget {
 
 class _TodoUpdateSheetState extends ConsumerState<TodoUpdateSheet> {
   final _controller = TextEditingController();
+  late Option<DateTime> _due;
 
   @override
   void initState() {
     _controller.text = widget.todo.value.title;
+    _due = widget.todo.value.due;
     super.initState();
   }
 
@@ -44,6 +48,7 @@ class _TodoUpdateSheetState extends ConsumerState<TodoUpdateSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final yMMMd = DateFormat.yMMMd();
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -65,11 +70,40 @@ class _TodoUpdateSheetState extends ConsumerState<TodoUpdateSheet> {
               ),
             ),
           ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              TextButton.icon(
+                onPressed: () async {
+                  final now = DateTime.now();
+                  final initialDate = _due.getOrElse(() => now);
+                  final selectedDate = optionOf(
+                    await showDatePicker(
+                      context: context,
+                      initialDate: initialDate,
+                      firstDate: initialDate.isBefore(now) ? initialDate : now,
+                      lastDate: DateTime(3000),
+                    ),
+                  );
+                  setState(
+                    () => selectedDate.map((date) => _due = optionOf(date)),
+                  );
+                },
+                icon: const Icon(Icons.calendar_today),
+                label: Text(
+                  'Date: ${_due.match(() => 'No date set', yMMMd.format)}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.hintColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -85,6 +119,7 @@ class _TodoUpdateSheetState extends ConsumerState<TodoUpdateSheet> {
                           final newText = _controller.text;
                           final newTodo = widget.todo.copyWith(
                             title: newText.isNotEmpty ? newText : null,
+                            due: _due.toNullable(),
                           );
                           ref.read(updateTodoProvider.notifier).run(newTodo);
                           Navigator.pop(context);

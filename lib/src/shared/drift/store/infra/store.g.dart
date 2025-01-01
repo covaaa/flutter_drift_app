@@ -353,9 +353,14 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   late final GeneratedColumn<int> category = GeneratedColumn<int>(
       'category', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _dueMeta = const VerificationMeta('due');
+  @override
+  late final GeneratedColumn<DateTime> due = GeneratedColumn<DateTime>(
+      'due', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, createdAt, updatedAt, title, category];
+      [id, createdAt, updatedAt, title, category, due];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -391,6 +396,10 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       context.handle(_categoryMeta,
           category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
     }
+    if (data.containsKey('due')) {
+      context.handle(
+          _dueMeta, due.isAcceptableOrUnknown(data['due']!, _dueMeta));
+    }
     return context;
   }
 
@@ -410,6 +419,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       category: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}category']),
+      due: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}due']),
     );
   }
 
@@ -425,12 +436,14 @@ class Todo extends DataClass implements Insertable<Todo> {
   final DateTime updatedAt;
   final String title;
   final int? category;
+  final DateTime? due;
   const Todo(
       {required this.id,
       required this.createdAt,
       required this.updatedAt,
       required this.title,
-      this.category});
+      this.category,
+      this.due});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -440,6 +453,9 @@ class Todo extends DataClass implements Insertable<Todo> {
     map['title'] = Variable<String>(title);
     if (!nullToAbsent || category != null) {
       map['category'] = Variable<int>(category);
+    }
+    if (!nullToAbsent || due != null) {
+      map['due'] = Variable<DateTime>(due);
     }
     return map;
   }
@@ -453,6 +469,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       category: category == null && nullToAbsent
           ? const Value.absent()
           : Value(category),
+      due: due == null && nullToAbsent ? const Value.absent() : Value(due),
     );
   }
 
@@ -465,6 +482,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
       title: serializer.fromJson<String>(json['title']),
       category: serializer.fromJson<int?>(json['category']),
+      due: serializer.fromJson<DateTime?>(json['due']),
     );
   }
   @override
@@ -476,6 +494,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       'updated_at': serializer.toJson<DateTime>(updatedAt),
       'title': serializer.toJson<String>(title),
       'category': serializer.toJson<int?>(category),
+      'due': serializer.toJson<DateTime?>(due),
     };
   }
 
@@ -484,13 +503,15 @@ class Todo extends DataClass implements Insertable<Todo> {
           DateTime? createdAt,
           DateTime? updatedAt,
           String? title,
-          Value<int?> category = const Value.absent()}) =>
+          Value<int?> category = const Value.absent(),
+          Value<DateTime?> due = const Value.absent()}) =>
       Todo(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         title: title ?? this.title,
         category: category.present ? category.value : this.category,
+        due: due.present ? due.value : this.due,
       );
   Todo copyWithCompanion(TodosCompanion data) {
     return Todo(
@@ -499,6 +520,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       title: data.title.present ? data.title.value : this.title,
       category: data.category.present ? data.category.value : this.category,
+      due: data.due.present ? data.due.value : this.due,
     );
   }
 
@@ -509,13 +531,15 @@ class Todo extends DataClass implements Insertable<Todo> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('title: $title, ')
-          ..write('category: $category')
+          ..write('category: $category, ')
+          ..write('due: $due')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, createdAt, updatedAt, title, category);
+  int get hashCode =>
+      Object.hash(id, createdAt, updatedAt, title, category, due);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -524,7 +548,8 @@ class Todo extends DataClass implements Insertable<Todo> {
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.title == this.title &&
-          other.category == this.category);
+          other.category == this.category &&
+          other.due == this.due);
 }
 
 class TodosCompanion extends UpdateCompanion<Todo> {
@@ -533,12 +558,14 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<DateTime> updatedAt;
   final Value<String> title;
   final Value<int?> category;
+  final Value<DateTime?> due;
   const TodosCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.title = const Value.absent(),
     this.category = const Value.absent(),
+    this.due = const Value.absent(),
   });
   TodosCompanion.insert({
     this.id = const Value.absent(),
@@ -546,6 +573,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     required DateTime updatedAt,
     required String title,
     this.category = const Value.absent(),
+    this.due = const Value.absent(),
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
         title = Value(title);
@@ -555,6 +583,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Expression<DateTime>? updatedAt,
     Expression<String>? title,
     Expression<int>? category,
+    Expression<DateTime>? due,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -562,6 +591,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (title != null) 'title': title,
       if (category != null) 'category': category,
+      if (due != null) 'due': due,
     });
   }
 
@@ -570,13 +600,15 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<String>? title,
-      Value<int?>? category}) {
+      Value<int?>? category,
+      Value<DateTime?>? due}) {
     return TodosCompanion(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       title: title ?? this.title,
       category: category ?? this.category,
+      due: due ?? this.due,
     );
   }
 
@@ -598,6 +630,9 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     if (category.present) {
       map['category'] = Variable<int>(category.value);
     }
+    if (due.present) {
+      map['due'] = Variable<DateTime>(due.value);
+    }
     return map;
   }
 
@@ -608,7 +643,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('title: $title, ')
-          ..write('category: $category')
+          ..write('category: $category, ')
+          ..write('due: $due')
           ..write(')'))
         .toString();
   }
@@ -1105,6 +1141,7 @@ typedef $$TodosTableCreateCompanionBuilder = TodosCompanion Function({
   required DateTime updatedAt,
   required String title,
   Value<int?> category,
+  Value<DateTime?> due,
 });
 typedef $$TodosTableUpdateCompanionBuilder = TodosCompanion Function({
   Value<int> id,
@@ -1112,6 +1149,7 @@ typedef $$TodosTableUpdateCompanionBuilder = TodosCompanion Function({
   Value<DateTime> updatedAt,
   Value<String> title,
   Value<int?> category,
+  Value<DateTime?> due,
 });
 
 class $$TodosTableFilterComposer extends Composer<_$DriftStore, $TodosTable> {
@@ -1136,6 +1174,9 @@ class $$TodosTableFilterComposer extends Composer<_$DriftStore, $TodosTable> {
 
   ColumnFilters<int> get category => $composableBuilder(
       column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get due => $composableBuilder(
+      column: $table.due, builder: (column) => ColumnFilters(column));
 }
 
 class $$TodosTableOrderingComposer extends Composer<_$DriftStore, $TodosTable> {
@@ -1160,6 +1201,9 @@ class $$TodosTableOrderingComposer extends Composer<_$DriftStore, $TodosTable> {
 
   ColumnOrderings<int> get category => $composableBuilder(
       column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get due => $composableBuilder(
+      column: $table.due, builder: (column) => ColumnOrderings(column));
 }
 
 class $$TodosTableAnnotationComposer
@@ -1185,6 +1229,9 @@ class $$TodosTableAnnotationComposer
 
   GeneratedColumn<int> get category =>
       $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get due =>
+      $composableBuilder(column: $table.due, builder: (column) => column);
 }
 
 class $$TodosTableTableManager extends RootTableManager<
@@ -1215,6 +1262,7 @@ class $$TodosTableTableManager extends RootTableManager<
             Value<DateTime> updatedAt = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<int?> category = const Value.absent(),
+            Value<DateTime?> due = const Value.absent(),
           }) =>
               TodosCompanion(
             id: id,
@@ -1222,6 +1270,7 @@ class $$TodosTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
             title: title,
             category: category,
+            due: due,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -1229,6 +1278,7 @@ class $$TodosTableTableManager extends RootTableManager<
             required DateTime updatedAt,
             required String title,
             Value<int?> category = const Value.absent(),
+            Value<DateTime?> due = const Value.absent(),
           }) =>
               TodosCompanion.insert(
             id: id,
@@ -1236,6 +1286,7 @@ class $$TodosTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
             title: title,
             category: category,
+            due: due,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

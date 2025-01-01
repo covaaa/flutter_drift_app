@@ -11,9 +11,9 @@ extension type const DriftTodo._(store.DriftIdOf<Todo> _todo)
     );
   }
 
-  DriftTodo copyWith({String? title}) {
+  DriftTodo copyWith({String? title, DateTime? due}) {
     return DriftTodo._(
-      store.DriftIdOf(id: id, value: value.copyWith(title: title)),
+      store.DriftIdOf(id: id, value: value.copyWith(title: title, due: due)),
     );
   }
 
@@ -22,6 +22,7 @@ extension type const DriftTodo._(store.DriftIdOf<Todo> _todo)
       id: Value(id),
       title: Value(value.title),
       category: Value(value.category.toNullable()),
+      due: Value(value.due.toNullable()),
       createdAt: Value(value.createdAt),
       updatedAt: Value(value.updatedAt),
     );
@@ -34,12 +35,14 @@ final class Todo extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     this.category = const None(),
+    this.due = const None(),
   });
 
   factory Todo.fromDrift(store.Todo todo) {
     return Todo(
       title: todo.title,
       category: optionOf(todo.category),
+      due: optionOf(todo.due),
       createdAt: todo.createdAt,
       updatedAt: todo.updatedAt,
     );
@@ -47,16 +50,18 @@ final class Todo extends Equatable {
 
   final String title;
   final Option<int> category;
+  final Option<DateTime> due;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   @override
-  List<Object?> get props => [title, category, createdAt, updatedAt];
+  List<Object?> get props => [title, category, due, createdAt, updatedAt];
 
-  Todo copyWith({String? title}) {
+  Todo copyWith({String? title, DateTime? due}) {
     return Todo(
       title: title ?? this.title,
       category: category,
+      due: optionOf(due).match(() => this.due, some),
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -66,6 +71,7 @@ final class Todo extends Equatable {
     return store.TodosCompanion(
       title: Value(title),
       category: Value(category.toNullable()),
+      due: Value(due.toNullable()),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );

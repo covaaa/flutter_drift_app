@@ -26,6 +26,7 @@ void main() {
       expect(() => todos.id, throwsUnsupportedError);
       expect(() => todos.title, throwsUnsupportedError);
       expect(() => todos.category, throwsUnsupportedError);
+      expect(() => todos.due, throwsUnsupportedError);
       expect(() => todos.createdAt, throwsUnsupportedError);
       expect(() => todos.updatedAt, throwsUnsupportedError);
 

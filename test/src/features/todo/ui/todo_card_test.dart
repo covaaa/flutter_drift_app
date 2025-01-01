@@ -19,6 +19,8 @@ void main() {
     'should show edit sheet',
     (tester) async {
       await tester.pumpApp(child: TodoCard(driftTodo));
+      expect(find.text(driftTodo.value.title), findsOneWidget);
+      expect(find.text('No due date'), findsOneWidget);
       await tester.tap(find.byIcon(Icons.more_vert_outlined));
       await tester.pumpAndSettle();
       expect(find.byType(TodoEditSheet), findsOneWidget);
