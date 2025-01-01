@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/todo/domain/todo.dart';
 import 'package:flutter_drift_app/src/features/todo/ui/todo_delete_dialog.dart';
 import 'package:flutter_drift_app/src/features/todo/ui/todo_update_sheet.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TodoEditSheet extends ConsumerWidget {
+class TodoEditSheet extends StatelessWidget {
   const TodoEditSheet(this.todo, {super.key});
 
   final DriftTodo todo;
@@ -26,7 +25,7 @@ class TodoEditSheet extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 125),
       child: Row(
