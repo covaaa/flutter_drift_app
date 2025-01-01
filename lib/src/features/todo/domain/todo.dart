@@ -22,8 +22,8 @@ extension type const DriftTodo._(store.DriftIdOf<Todo> _todo)
       id: Value(id),
       title: Value(value.title),
       category: Value(value.category.toNullable()),
-      createdAt: Value(value.createdAt.run()),
-      updatedAt: Value(value.updatedAt.run()),
+      createdAt: Value(value.createdAt),
+      updatedAt: Value(value.updatedAt),
     );
   }
 }
@@ -31,24 +31,24 @@ extension type const DriftTodo._(store.DriftIdOf<Todo> _todo)
 final class Todo extends Equatable {
   const Todo({
     required this.title,
+    required this.createdAt,
+    required this.updatedAt,
     this.category = const None(),
-    this.createdAt = const IO(DateTime.now),
-    this.updatedAt = const IO(DateTime.now),
   });
 
   factory Todo.fromDrift(store.Todo todo) {
     return Todo(
       title: todo.title,
       category: optionOf(todo.category),
-      createdAt: IO.of(todo.createdAt),
-      updatedAt: IO.of(todo.updatedAt),
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
     );
   }
 
   final String title;
   final Option<int> category;
-  final IO<DateTime> createdAt;
-  final IO<DateTime> updatedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   @override
   List<Object?> get props => [title, category, createdAt, updatedAt];
@@ -66,8 +66,8 @@ final class Todo extends Equatable {
     return store.TodosCompanion(
       title: Value(title),
       category: Value(category.toNullable()),
-      createdAt: Value(createdAt.run()),
-      updatedAt: Value(updatedAt.run()),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
     );
   }
 }

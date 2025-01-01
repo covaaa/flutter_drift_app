@@ -72,7 +72,12 @@ class _TodoCreateSheetState extends ConsumerState<TodoCreateSheet> {
                       FilledButton.tonalIcon(
                         onPressed: () {
                           if (_controller.text.isNotEmpty) {
-                            final todo = Todo(title: _controller.text);
+                            final date = DateTime.now();
+                            final todo = Todo(
+                              title: _controller.text,
+                              createdAt: date,
+                              updatedAt: date,
+                            );
                             ref.read(createTodoProvider.notifier).run(todo);
                             _controller.clear();
                           }

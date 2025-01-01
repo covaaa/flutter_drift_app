@@ -18,10 +18,6 @@ class Fakes {
     closeStreamsSynchronously: true,
   );
 
-  IO<DateTime> get dateIO {
-    return IO.of(date);
-  }
-
   Preference get preference {
     return Preference(
       mode: ThemeMode.system,
@@ -35,8 +31,8 @@ class Fakes {
     return Todo(
       title: 'new todo',
       category: none(),
-      createdAt: dateIO,
-      updatedAt: dateIO,
+      createdAt: date,
+      updatedAt: date,
     );
   }
 
