@@ -17,18 +17,20 @@ class TodoService {
 
   final DriftStore store;
 
+  $TodosTable get _todos => store.todos;
+
   $DriftStoreManager get _managers => store.managers;
 
   Future<int> createTodo(Todo todo) {
-    return _managers.todos.create(todo.create);
+    return _todos.insertOne(todo.toDrift());
   }
 
-  Future<int> updateTodo(DriftTodo todo) {
-    return _managers.todos.update(todo.update);
+  Future<void> updateTodo(DriftTodo todo) {
+    return _todos.replaceOne(todo.toDrift());
   }
 
   Future<bool> deleteTodo(DriftTodo todo) {
-    return store.todos.deleteOne(todo.delete());
+    return _todos.deleteOne(todo.toDrift());
   }
 
   Stream<Todos> emitsTodos() {

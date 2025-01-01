@@ -47,7 +47,7 @@ void main() {
     'should update todo',
     () async {
       await service.createTodo(todo);
-      expect(service.updateTodo(driftTodo), completion(4));
+      expect(service.updateTodo(driftTodo), completion(isA<void>()));
     },
   );
 

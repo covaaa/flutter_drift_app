@@ -17,23 +17,7 @@ extension type const DriftTodo._(drift.DriftIdOf<Todo> _todo)
     );
   }
 
-  drift.TodosCompanion update(
-    drift.TodosCompanion Function({
-      Value<int> id,
-      Value<String> title,
-      Value<int?> category,
-      Value<DateTime> createdAt,
-      Value<DateTime> updatedAt,
-    }) companion,
-  ) {
-    return companion(
-      title: Value(value.title),
-      category: Value(value.category.toNullable()),
-      updatedAt: Value(DateTime.now()),
-    );
-  }
-
-  drift.TodosCompanion delete() {
+  drift.TodosCompanion toDrift() {
     return drift.TodosCompanion(
       id: Value(id),
       title: Value(value.title),
@@ -78,20 +62,12 @@ final class Todo extends Equatable {
     );
   }
 
-  drift.TodosCompanion create(
-    drift.TodosCompanion Function({
-      required String title,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      Value<int> id,
-      Value<int?> category,
-    }) companion,
-  ) {
-    return companion(
-      title: title,
+  drift.TodosCompanion toDrift() {
+    return drift.TodosCompanion(
+      title: Value(title),
       category: Value(category.toNullable()),
-      createdAt: createdAt.run(),
-      updatedAt: updatedAt.run(),
+      createdAt: Value(createdAt.run()),
+      updatedAt: Value(updatedAt.run()),
     );
   }
 }
