@@ -33,12 +33,6 @@ class TodoService {
     return _todos.deleteOne(todo.toDrift());
   }
 
-  Stream<Todos> emitsTodos() {
-    return _managers.todos.watch().map((list) {
-      return Todos(list.map(Todo.fromDrift));
-    });
-  }
-
   Stream<DriftTodos> emitsDriftTodos() {
     return _managers.todos.watch().map((list) {
       return DriftTodos(list.map(DriftTodo.new));

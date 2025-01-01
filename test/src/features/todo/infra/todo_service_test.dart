@@ -12,7 +12,6 @@ class MockTodoService extends Mock implements TodoService {}
 void main() {
   late Fakes fakes;
   late Todo todo;
-  late Todos todos;
   late DriftTodo driftTodo;
   late DriftTodos driftTodos;
   late QueryExecutor connection;
@@ -23,7 +22,6 @@ void main() {
     () {
       fakes = Fakes();
       todo = fakes.todo4;
-      todos = fakes.todos;
       driftTodo = fakes.driftTodo4;
       driftTodos = fakes.driftTodos;
       connection = fakes.connection;
@@ -56,28 +54,6 @@ void main() {
     () async {
       await service.createTodo(todo);
       expect(service.deleteTodo(driftTodo), completion(isTrue));
-    },
-  );
-
-  test(
-    'should emits todos',
-    () {
-      expect(
-        service.emitsTodos(),
-        emits(
-          isA<Todos>()
-              .having(
-                (todos) => todos.map((todo) => todo.title),
-                'should be expected titles',
-                todos.map((todo) => todo.title),
-              )
-              .having(
-                (todos) => todos.map((todo) => todo.category),
-                'should be expected categories',
-                todos.map((todo) => todo.category),
-              ),
-        ),
-      );
     },
   );
 

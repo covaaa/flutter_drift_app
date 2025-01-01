@@ -31,33 +31,6 @@ class Fakes {
     );
   }
 
-  Todo get todo1 {
-    return Todo(
-      title: 'check out drift',
-      category: none(),
-      createdAt: dateIO,
-      updatedAt: dateIO,
-    );
-  }
-
-  Todo get todo2 {
-    return Todo(
-      title: 'fix session invalidation bug',
-      category: some(1),
-      createdAt: dateIO,
-      updatedAt: dateIO,
-    );
-  }
-
-  Todo get todo3 {
-    return Todo(
-      title: 'add favorite movies to home page',
-      category: none(),
-      createdAt: dateIO,
-      updatedAt: dateIO,
-    );
-  }
-
   Todo get todo4 {
     return Todo(
       title: 'new todo',
@@ -65,10 +38,6 @@ class Fakes {
       createdAt: dateIO,
       updatedAt: dateIO,
     );
-  }
-
-  Todos get todos {
-    return Todos([todo1, todo2, todo3]);
   }
 
   DriftTodo get driftTodo1 {
