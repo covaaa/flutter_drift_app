@@ -1,24 +1,24 @@
 import 'package:drift/drift.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_drift_app/src/shared/drift/store/store.dart' as drift;
+import 'package:flutter_drift_app/src/shared/drift/store/store.dart' as store;
 import 'package:fpdart/fpdart.dart';
 
-extension type const DriftTodo._(drift.DriftIdOf<Todo> _todo)
-    implements drift.DriftIdOf<Todo> {
-  factory DriftTodo(drift.Todo todo) {
+extension type const DriftTodo._(store.DriftIdOf<Todo> _todo)
+    implements store.DriftIdOf<Todo> {
+  factory DriftTodo(store.Todo todo) {
     return DriftTodo._(
-      drift.DriftIdOf(id: todo.id, value: Todo.fromDrift(todo)),
+      store.DriftIdOf(id: todo.id, value: Todo.fromDrift(todo)),
     );
   }
 
   DriftTodo copyWith({String? title}) {
     return DriftTodo._(
-      drift.DriftIdOf(id: id, value: value.copyWith(title: title)),
+      store.DriftIdOf(id: id, value: value.copyWith(title: title)),
     );
   }
 
-  drift.TodosCompanion toDrift() {
-    return drift.TodosCompanion(
+  store.TodosCompanion toDrift() {
+    return store.TodosCompanion(
       id: Value(id),
       title: Value(value.title),
       category: Value(value.category.toNullable()),
@@ -36,7 +36,7 @@ final class Todo extends Equatable {
     this.updatedAt = const IO(DateTime.now),
   });
 
-  factory Todo.fromDrift(drift.Todo todo) {
+  factory Todo.fromDrift(store.Todo todo) {
     return Todo(
       title: todo.title,
       category: optionOf(todo.category),
@@ -62,8 +62,8 @@ final class Todo extends Equatable {
     );
   }
 
-  drift.TodosCompanion toDrift() {
-    return drift.TodosCompanion(
+  store.TodosCompanion toDrift() {
+    return store.TodosCompanion(
       title: Value(title),
       category: Value(category.toNullable()),
       createdAt: Value(createdAt.run()),

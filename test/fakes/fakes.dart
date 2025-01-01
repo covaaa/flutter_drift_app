@@ -5,7 +5,7 @@ import 'package:flutter_drift_app/src/features/account/account.dart';
 import 'package:flutter_drift_app/src/features/category/category.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_drift_app/src/shared/core/core.dart';
-import 'package:flutter_drift_app/src/shared/drift/store/store.dart' as drift;
+import 'package:flutter_drift_app/src/shared/drift/store/store.dart' as store;
 import 'package:fpdart/fpdart.dart';
 import 'platforms.dart';
 
@@ -42,7 +42,7 @@ class Fakes {
 
   DriftTodo get driftTodo1 {
     return DriftTodo(
-      drift.Todo(
+      store.Todo(
         id: 1,
         title: 'check out drift',
         createdAt: date,
@@ -53,7 +53,7 @@ class Fakes {
 
   DriftTodo get driftTodo2 {
     return DriftTodo(
-      drift.Todo(
+      store.Todo(
         id: 2,
         title: 'fix session invalidation bug',
         category: 1,
@@ -65,7 +65,7 @@ class Fakes {
 
   DriftTodo get driftTodo3 {
     return DriftTodo(
-      drift.Todo(
+      store.Todo(
         id: 3,
         title: 'add favorite movies to home page',
         createdAt: date,
@@ -76,7 +76,7 @@ class Fakes {
 
   DriftTodo get driftTodo4 {
     return DriftTodo(
-      drift.Todo(
+      store.Todo(
         id: 4,
         title: 'new todo',
         createdAt: date,
