@@ -17,18 +17,20 @@ class CategoryService {
 
   final DriftStore store;
 
+  $CategoriesTable get _categories => store.categories;
+
   $DriftStoreManager get _managers => store.managers;
 
   Future<int> createCategory(Category category) {
-    return _managers.categories.create(category.create);
+    return _categories.insertOne(category.toDrift());
   }
 
-  Future<int> updateCategory(Category category) {
-    return _managers.categories.update(category.update);
+  Future<void> updateCategory(Category category) {
+    return _categories.replaceOne(category.toDrift());
   }
 
   Future<bool> deleteCategory(Category category) {
-    return store.categories.deleteOne(category.toDrift());
+    return _categories.deleteOne(category.toDrift());
   }
 
   Stream<Categories> emitsCategories() {

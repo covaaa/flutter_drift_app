@@ -11,7 +11,8 @@ class MockCategoryService extends Mock implements CategoryService {}
 
 void main() {
   late Fakes fakes;
-  late Category category;
+  late Category category1;
+  late Category category2;
   late Categories categories;
   late QueryExecutor connection;
   late ProviderContainer container;
@@ -20,7 +21,8 @@ void main() {
   setUp(
     () {
       fakes = Fakes();
-      category = fakes.category1;
+      category1 = fakes.category1;
+      category2 = fakes.category2;
       categories = fakes.categories;
       connection = fakes.connection;
       container = ProviderContainer(
@@ -35,23 +37,21 @@ void main() {
   test(
     'should create category',
     () {
-      expect(service.createCategory(category), completion(2));
+      expect(service.createCategory(category2), completion(2));
     },
   );
 
   test(
     'should update category',
-    () async {
-      await service.createCategory(category);
-      expect(service.updateCategory(category), completion(2));
+    () {
+      expect(service.updateCategory(category1), completion(isA<void>()));
     },
   );
 
   test(
     'should delete category',
-    () async {
-      await service.createCategory(category);
-      expect(service.deleteCategory(category), completion(isTrue));
+    () {
+      expect(service.deleteCategory(category1), completion(isTrue));
     },
   );
 

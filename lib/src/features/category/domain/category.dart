@@ -40,38 +40,4 @@ final class Category extends Equatable {
       updatedAt: Value(updatedAt),
     );
   }
-
-  store.CategoriesCompanion create(
-    store.CategoriesCompanion Function({
-      required String title,
-      required ColorAccent color,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      Value<int> id,
-    }) companion,
-  ) {
-    final date = DateTime.now();
-    return companion(
-      title: title,
-      color: color,
-      createdAt: date,
-      updatedAt: date,
-    );
-  }
-
-  store.CategoriesCompanion update(
-    store.CategoriesCompanion Function({
-      Value<int> id,
-      Value<String> title,
-      Value<ColorAccent> color,
-      Value<DateTime> createdAt,
-      Value<DateTime> updatedAt,
-    }) companion,
-  ) {
-    return companion(
-      title: Value(title),
-      color: Value(color),
-      updatedAt: Value(DateTime.now()),
-    );
-  }
 }

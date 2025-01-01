@@ -130,6 +130,16 @@ class Fakes {
     );
   }
 
+  Category get category2 {
+    return Category(
+      id: 2,
+      title: 'work',
+      color: ColorAccent.blue,
+      createdAt: date,
+      updatedAt: date,
+    );
+  }
+
   Categories get categories {
     return Categories([category1]);
   }
