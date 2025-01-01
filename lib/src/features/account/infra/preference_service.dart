@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_drift_app/src/features/account/domain/preference.dart';
 import 'package:flutter_drift_app/src/shared/drift/store/store.dart'
     hide Preference;
@@ -15,14 +16,12 @@ class PreferenceService {
 
   final DriftStore store;
 
+  $PreferencesTable get _preferences => store.preferences;
+
   $DriftStoreManager get _managers => store.managers;
 
-  Future<int> createPreference(Preference preference) {
-    return _managers.preferences.create(preference.create);
-  }
-
-  Future<int> updatePreference(Preference preference) {
-    return _managers.preferences.update(preference.update);
+  Future<void> updatePreference(Preference preference) {
+    return _preferences.replaceOne(preference.toDrift());
   }
 
   Stream<Preference> emitsPreference() {

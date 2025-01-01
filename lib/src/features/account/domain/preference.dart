@@ -29,37 +29,13 @@ final class Preference extends Equatable {
   @override
   List<Object?> get props => [mode, color, createdAt, updatedAt];
 
-  store.PreferencesCompanion create(
-    store.PreferencesCompanion Function({
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      Value<int> id,
-      Value<ThemeMode> mode,
-      Value<ColorSeed> color,
-    }) companion,
-  ) {
-    final date = DateTime.now();
-    return companion(
+  store.PreferencesCompanion toDrift() {
+    return store.PreferencesCompanion(
+      id: const Value(1),
       mode: Value(mode),
       color: Value(color),
-      createdAt: date,
-      updatedAt: date,
-    );
-  }
-
-  store.PreferencesCompanion update(
-    store.PreferencesCompanion Function({
-      Value<int> id,
-      Value<ThemeMode> mode,
-      Value<ColorSeed> color,
-      Value<DateTime> createdAt,
-      Value<DateTime> updatedAt,
-    }) companion,
-  ) {
-    return companion(
-      mode: Value(mode),
-      color: Value(color),
-      updatedAt: Value(DateTime.now()),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
     );
   }
 }

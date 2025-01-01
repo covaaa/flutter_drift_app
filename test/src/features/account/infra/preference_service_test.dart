@@ -33,23 +33,15 @@ void main() {
   tearDown(() => container.dispose());
 
   test(
-    'should create preference',
-    () {
-      expect(service.createPreference(preference), completion(2));
-    },
-  );
-
-  test(
     'should update preference',
-    () async {
-      await service.createPreference(preference);
-      expect(service.updatePreference(preference), completion(2));
+    () {
+      expect(service.updatePreference(preference), completion(isA<void>()));
     },
   );
 
   test(
     'should emits some preference',
-    () async {
+    () {
       expect(
         service.emitsPreference(),
         emits(
