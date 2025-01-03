@@ -27,5 +27,20 @@ final readCategoriesProvider = AutoDisposeStreamProvider<Categories>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ReadCategoriesRef = AutoDisposeStreamProviderRef<Categories>;
+String _$readCategoryHash() => r'17cc79de82c0526708a601ea7e77124e7626871b';
+
+/// See also [ReadCategory].
+@ProviderFor(ReadCategory)
+final readCategoryProvider =
+    AutoDisposeNotifierProvider<ReadCategory, Option<Category>>.internal(
+  ReadCategory.new,
+  name: r'readCategoryProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$readCategoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReadCategory = AutoDisposeNotifier<Option<Category>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

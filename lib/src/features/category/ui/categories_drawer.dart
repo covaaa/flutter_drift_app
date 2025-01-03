@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/category/state/read.dart';
 import 'package:flutter_drift_app/src/features/category/ui/category_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 
 class CategoriesDrawer extends ConsumerWidget {
   const CategoriesDrawer({super.key});
@@ -24,7 +25,9 @@ class CategoriesDrawer extends ConsumerWidget {
             data: (categories) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
-                children: List.of(categories.map(CategoryCard.new)),
+                children: List.of(
+                  categories.map(some).map(CategoryCard.new),
+                )..insert(0, const CategoryCard(None())),
               ),
             ),
           ),

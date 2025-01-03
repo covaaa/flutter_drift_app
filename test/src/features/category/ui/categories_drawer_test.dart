@@ -39,7 +39,7 @@ void main() {
       verify(emitsCategories).called(1);
       expect(find.byType(NavigationDrawer), findsOneWidget);
       await tester.pump();
-      expect(find.byType(CategoryCard), findsOneWidget);
+      expect(find.byType(CategoryCard), findsNWidgets(2));
     },
   );
 }

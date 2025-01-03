@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/category/category.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'home_page.g.dart';
+
+@riverpod
+GlobalObjectKey<ScaffoldState> homeScaffoldKey(Ref ref) {
+  return const GlobalObjectKey<ScaffoldState>('home_scaffold');
+}
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -10,6 +17,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncTodos = ref.watch(readDriftTodosProvider);
     return Scaffold(
+      key: ref.watch(homeScaffoldKeyProvider),
       drawer: const CategoriesDrawer(),
       body: asyncTodos.whenOrNull(
         data: (todos) => Padding(

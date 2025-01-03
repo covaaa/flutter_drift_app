@@ -11,7 +11,8 @@ enum ColorAccent {
   orange(Colors.orangeAccent),
   deepOrange(Colors.deepOrangeAccent),
   pink(Colors.pinkAccent),
-  red(Colors.redAccent);
+  red(Colors.redAccent),
+  gray(Colors.grey);
 
   const ColorAccent(this.color);
 

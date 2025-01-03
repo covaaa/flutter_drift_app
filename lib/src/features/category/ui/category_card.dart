@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/category/domain/category.dart';
+import 'package:flutter_drift_app/src/features/category/state/read.dart';
+import 'package:flutter_drift_app/src/shared/core/core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 
-class CategoryCard extends StatelessWidget {
+class CategoryCard extends ConsumerWidget {
   const CategoryCard(this.category, {super.key});
 
-  final Category category;
+  final Option<Category> category;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Card(
       clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.surfaceBright,
+      color: theme.colorScheme.surfaceContainer,
       child: InkWell(
         onTap: () {
-          // TODO(cova): should show sorted todos on home page
+          ref.read(readCategoryProvider.notifier).run(category);
+          Navigator.maybePop(context);
         },
         child: Padding(
           padding: const EdgeInsets.all(8),
@@ -25,13 +30,15 @@ class CategoryCard extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: category.color.color,
+                    color: category.map((some) {
+                      return some.color.color;
+                    }).getOrElse(() => ColorAccent.gray.color),
                   ),
                   child: const SizedBox.square(dimension: 20),
                 ),
               ),
               Text(
-                category.title,
+                category.map((some) => some.title).getOrElse(() => 'All'),
                 style: theme.textTheme.bodySmall,
               ),
             ],
