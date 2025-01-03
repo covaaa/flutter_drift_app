@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_drift_app/src/features/category/category.dart';
 import 'package:flutter_drift_app/src/features/todo/todo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,6 +10,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncTodos = ref.watch(readDriftTodosProvider);
     return Scaffold(
+      drawer: const CategoriesDrawer(),
       body: asyncTodos.whenOrNull(
         data: (todos) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
