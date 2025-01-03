@@ -64,7 +64,10 @@ void main() {
   test(
     'throws ArgumentError for unknown versions',
     () async {
-      final migration = migrationSteps(from1To2: (migrator, schema) async {});
+      final migration = migrationSteps(
+        from1To2: (migrator, schema) async {},
+        from2To3: (migrator, schema) async {},
+      );
       expect(
         () async => migration(3, mockGeneratedDatabase),
         throwsA(isA<ArgumentError>()),

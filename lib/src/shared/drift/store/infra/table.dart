@@ -12,7 +12,9 @@ class Preferences extends Table with SharedColumn {
 
 class Todos extends Table with SharedColumn {
   TextColumn get title => text()();
-  IntColumn get category => integer().nullable()();
+  IntColumn get category => integer()
+      .nullable()
+      .references(Categories, #id, onDelete: KeyAction.setNull)();
   DateTimeColumn get due => dateTime().nullable()();
 }
 

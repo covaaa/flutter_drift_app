@@ -21,13 +21,16 @@ DriftStore driftStore(Ref ref) {
 class DriftStore extends _$DriftStore {
   DriftStore(super.e);
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
       onUpgrade: stepByStep(
         from1To2: (migrator, schema) async {
           await migrator.addColumn(schema.todos, schema.todos.due);
+        },
+        from2To3: (migrator, schema) async {
+          await migrator.alterTable(TableMigration(schema.todos));
         },
       ),
       beforeOpen: (OpeningDetails details) async {

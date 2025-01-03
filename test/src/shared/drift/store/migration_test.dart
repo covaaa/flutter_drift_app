@@ -8,16 +8,124 @@ import '../../../../fakes/fakes.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
+import 'generated/schema_v3.dart' as v3;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
   late Fakes fakes;
   late DateTime date;
+  late List<v1.PreferencesData> preferencesDataV1;
+  late List<v2.PreferencesData> preferencesDataV2;
+  late List<v3.PreferencesData> preferencesDataV3;
+  late List<v1.TodosData> todosDataV1;
+  late List<v2.TodosData> todosDataV2;
+  late List<v3.TodosData> todosDataV3;
+  late List<v1.CategoriesData> categoriesDataV1;
+  late List<v2.CategoriesData> categoriesDataV2;
+  late List<v3.CategoriesData> categoriesDataV3;
   late SchemaVerifier verifier;
 
-  setUpAll(() {
+  setUp(() {
     fakes = Fakes();
     date = fakes.date;
+    preferencesDataV1 = <v1.PreferencesData>[
+      v1.PreferencesData(
+        id: 1,
+        mode: ThemeMode.system.name,
+        color: ColorSeed.deepPurple.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    // 移行後に予想される行
+    preferencesDataV2 = <v2.PreferencesData>[
+      v2.PreferencesData(
+        id: 1,
+        mode: ThemeMode.system.name,
+        color: ColorSeed.deepPurple.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    // 移行後に予想される行
+    preferencesDataV3 = <v3.PreferencesData>[
+      v3.PreferencesData(
+        id: 1,
+        mode: ThemeMode.system.name,
+        color: ColorSeed.deepPurple.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    todosDataV1 = <v1.TodosData>[
+      v1.TodosData(
+        id: 1,
+        title: 'fake todo 1',
+        createdAt: date,
+        updatedAt: date,
+      ),
+      v1.TodosData(
+        id: 2,
+        title: 'fake todo 2',
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    todosDataV2 = <v2.TodosData>[
+      v2.TodosData(
+        id: 1,
+        title: 'fake todo 1',
+        createdAt: date,
+        updatedAt: date,
+      ),
+      v2.TodosData(
+        id: 2,
+        title: 'fake todo 2',
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    todosDataV3 = <v3.TodosData>[
+      v3.TodosData(
+        id: 1,
+        title: 'fake todo 1',
+        createdAt: date,
+        updatedAt: date,
+      ),
+      v3.TodosData(
+        id: 2,
+        title: 'fake todo 2',
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    categoriesDataV1 = <v1.CategoriesData>[
+      v1.CategoriesData(
+        id: 1,
+        title: 'fake category',
+        color: ColorAccent.red.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    categoriesDataV2 = <v2.CategoriesData>[
+      v2.CategoriesData(
+        id: 1,
+        title: 'fake category',
+        color: ColorAccent.red.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
+    categoriesDataV3 = <v3.CategoriesData>[
+      v3.CategoriesData(
+        id: 1,
+        title: 'fake category',
+        color: ColorAccent.red.name,
+        createdAt: date,
+        updatedAt: date,
+      ),
+    ];
     verifier = SchemaVerifier(GeneratedHelper());
   });
 
@@ -39,80 +147,7 @@ void main() {
     }
   });
 
-  // 移行で既存のデータが保持されるかどうかのテストを記述する方法
-  // 既存の列を変更する移行 (たとえば列の型や制約を変更する) に役立つ
-  // テーブルや列を追加するだけの移行ではこれらのテストは必要ない
-  // 参考: https://drift.simonbinder.eu/migrations/tests/#verifying-data-integrity
   test('migration from v1 to v2 does not corrupt data', () async {
-    // 古いデータベースに挿入するデータ
-    final oldPreferencesData = <v1.PreferencesData>[
-      v1.PreferencesData(
-        id: 1,
-        mode: ThemeMode.system.name,
-        color: ColorSeed.deepPurple.name,
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-    // 移行後に予想される行
-    final expectedNewPreferencesData = <v2.PreferencesData>[
-      v2.PreferencesData(
-        id: 1,
-        mode: ThemeMode.system.name,
-        color: ColorSeed.deepPurple.name,
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-
-    final oldTodosData = <v1.TodosData>[
-      v1.TodosData(
-        id: 1,
-        title: 'fake todo 1',
-        createdAt: date,
-        updatedAt: date,
-      ),
-      v1.TodosData(
-        id: 2,
-        title: 'fake todo 2',
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-    final expectedNewTodosData = <v2.TodosData>[
-      v2.TodosData(
-        id: 1,
-        title: 'fake todo 1',
-        createdAt: date,
-        updatedAt: date,
-      ),
-      v2.TodosData(
-        id: 2,
-        title: 'fake todo 2',
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-
-    final oldCategoriesData = <v1.CategoriesData>[
-      v1.CategoriesData(
-        id: 1,
-        title: 'fake category',
-        color: ColorAccent.red.name,
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-    final expectedNewCategoriesData = <v2.CategoriesData>[
-      v2.CategoriesData(
-        id: 1,
-        title: 'fake category',
-        color: ColorAccent.red.name,
-        createdAt: date,
-        updatedAt: date,
-      ),
-    ];
-
     await verifier.testWithDataIntegrity(
       oldVersion: 1,
       newVersion: 2,
@@ -121,18 +156,51 @@ void main() {
       openTestedDatabase: DriftStore.new,
       createItems: (batch, oldDb) {
         batch
-          ..insertAll(oldDb.preferences, oldPreferencesData)
-          ..insertAll(oldDb.todos, oldTodosData)
-          ..insertAll(oldDb.categories, oldCategoriesData);
+          ..insertAll(oldDb.preferences, preferencesDataV1)
+          ..insertAll(oldDb.todos, todosDataV1)
+          ..insertAll(oldDb.categories, categoriesDataV1);
       },
       validateItems: (newDb) async {
         expect(
-          expectedNewPreferencesData,
+          preferencesDataV2,
           await newDb.select(newDb.preferences).get(),
         );
-        expect(expectedNewTodosData, await newDb.select(newDb.todos).get());
         expect(
-          expectedNewCategoriesData,
+          todosDataV2,
+          await newDb.select(newDb.todos).get(),
+        );
+        expect(
+          categoriesDataV2,
+          await newDb.select(newDb.categories).get(),
+        );
+      },
+    );
+  });
+
+  test('migration from v1 to v3 does not corrupt data', () async {
+    await verifier.testWithDataIntegrity(
+      oldVersion: 1,
+      newVersion: 3,
+      createOld: v1.DatabaseAtV1.new,
+      createNew: v3.DatabaseAtV3.new,
+      openTestedDatabase: DriftStore.new,
+      createItems: (batch, oldDb) {
+        batch
+          ..insertAll(oldDb.preferences, preferencesDataV1)
+          ..insertAll(oldDb.todos, todosDataV1)
+          ..insertAll(oldDb.categories, categoriesDataV1);
+      },
+      validateItems: (newDb) async {
+        expect(
+          preferencesDataV3,
+          await newDb.select(newDb.preferences).get(),
+        );
+        expect(
+          todosDataV3,
+          await newDb.select(newDb.todos).get(),
+        );
+        expect(
+          categoriesDataV3,
           await newDb.select(newDb.categories).get(),
         );
       },
