@@ -35,6 +35,7 @@ void main() {
   test(
     'should provide instance',
     () {
+      when(() => mockDirectory.path).thenReturn('fake');
       when(mockFetchDirectory).thenAnswer((i) async => mockDirectory);
       expect(container.read(driftDatabaseProvider), isA<QueryExecutor>());
     },

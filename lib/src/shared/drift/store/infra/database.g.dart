@@ -10,7 +10,7 @@ part of 'database.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$driftDatabaseHash() => r'd04875d3a4da77c026114ed54e836634ede2ed5a';
+String _$driftDatabaseHash() => r'35783d9b7bde46ec23012917c0ac2ef32a8a1b66';
 
 /// See also [driftDatabase].
 @ProviderFor(driftDatabase)
