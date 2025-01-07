@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_drift_app/src/features/account/account.dart';
 import 'package:flutter_drift_app/src/features/home/home.dart';
-import 'package:flutter_drift_app/src/shared/core/ui/loading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_drift_app/src/shared/core/domain/color_seed.dart';
+import 'package:flutter_drift_app/src/shared/core/domain/failure.dart';
+import 'package:fpdart/fpdart.dart';
 
-class App extends ConsumerWidget {
-  const App({super.key});
+class App extends StatelessWidget {
+  const App(this.preferenceOrFailure, {super.key});
+
+  final Either<Failure, Preference> preferenceOrFailure;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncPreference = ref.watch(readPreferenceProvider);
-    final asyncColor = ref.watch(readColorSeedProvider);
-    final asyncMode = ref.watch(readThemeModeProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      themeMode: asyncMode.whenOrNull(data: (mode) => mode),
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: asyncColor.whenOrNull(
-          data: (seed) => ColorScheme.fromSeed(seedColor: seed.color),
+  Widget build(BuildContext context) {
+    const title = 'Flutter Drift App';
+    const seed = ColorSeed.deepPurple;
+    final themeDataLight = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(seedColor: seed.color),
+    );
+    final themeDataDark = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: seed.color,
+        brightness: Brightness.dark,
+      ),
+    );
+    return preferenceOrFailure.match(
+      (failure) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: themeDataLight,
+        darkTheme: themeDataDark,
+        home: const Scaffold(
+          body: Center(child: Text('Oops! Something went wrong.')),
         ),
       ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: asyncColor.whenOrNull(
-          data: (seed) => ColorScheme.fromSeed(
-            brightness: Brightness.dark,
-            seedColor: seed.color,
+      (preference) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        themeMode: preference.mode,
+        theme: themeDataLight.copyWith(
+          colorScheme: themeDataLight.colorScheme.copyWith(
+            primary: preference.color.color,
           ),
         ),
-      ),
-      home: asyncPreference.maybeWhen(
-        data: (preference) => const HomePage(),
-        orElse: () => const LoadingPage(),
+        darkTheme: themeDataDark.copyWith(
+          colorScheme: themeDataDark.colorScheme.copyWith(
+            primary: preference.color.color,
+          ),
+        ),
+        home: const HomePage(),
       ),
     );
   }
