@@ -13,24 +13,23 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const title = 'Flutter Drift App';
-    const seed = ColorSeed.deepPurple;
-    final themeDataLight = ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: seed.color),
-    );
-    final themeDataDark = ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: seed.color,
-        brightness: Brightness.dark,
-      ),
-    );
     return preferenceOrFailure.match(
       (failure) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
-        theme: themeDataLight,
-        darkTheme: themeDataDark,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: ColorSeed.deepPurple.color,
+          ),
+        ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: ColorSeed.deepPurple.color,
+            brightness: Brightness.dark,
+          ),
+        ),
         home: const Scaffold(
           body: Center(child: Text('Oops! Something went wrong.')),
         ),
@@ -39,14 +38,15 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: title,
         themeMode: preference.mode,
-        theme: themeDataLight.copyWith(
-          colorScheme: themeDataLight.colorScheme.copyWith(
-            primary: preference.color.color,
-          ),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: preference.color.color),
         ),
-        darkTheme: themeDataDark.copyWith(
-          colorScheme: themeDataDark.colorScheme.copyWith(
-            primary: preference.color.color,
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: preference.color.color,
+            brightness: Brightness.dark,
           ),
         ),
         home: const HomePage(),
